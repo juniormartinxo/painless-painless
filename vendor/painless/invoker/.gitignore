@@ -45,4 +45,6 @@ $RECYCLE.BIN/
 tmp/
 tmp/*
 *.env
-composer.lock
+.htaccess
+bootstrap.php
+invoke
