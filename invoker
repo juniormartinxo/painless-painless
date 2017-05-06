@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Junior
+ * Date: 11/03/2017
+ * Time: 11:38
+ */
+
+include 'bootstrap.php';
+
+
+use Pandora\Builder\BuilderSave;
+use Pandora\Connection\Conn;
+use Pandora\Database\Database;
+use Pandora\Maker\Maker;
+use Pandora\Utils\Memory;
+use Pandora\Utils\Terminal;
+use Pandora\Utils\Timer;
+
+$timer = new Timer();
+$timer->setTimeStart();
+
+$memory   = new Memory();
+$terminal = new Terminal();
+
+$cmd   = isset($argv[1]) ? $argv[1] : '';
+$table = isset($argv[2]) ? $argv[2] : '';
+
+$conn = new Conn(DB_NAME, DB_HOST, DB_USER, DB_PASS);
+
+$database = new Database($conn, $table);
+
+$save = new BuilderSave('app/', 'api/');
+
+$maker = new Maker($save, $database, $table);
+
+$maker->execute($cmd);
+
+$timer->setTimeEnd();
+
+// Exibe a mensagem
+echo $terminal->write($timer->show(), 1, 0);
+echo $terminal->write($memory->show(), 1, 2);
