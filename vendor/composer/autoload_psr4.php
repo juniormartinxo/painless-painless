@@ -9,7 +9,7 @@ return array(
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
-    'Invoker\\' => array($vendorDir . '/painless/invoker/src/Invoker'),
+    'Pandora\\' => array($vendorDir . '/painless/invoker/src/Pandora'),
     'Interop\\Container\\' => array($vendorDir . '/container-interop/container-interop/src/Interop/Container'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Entities\\' => array($baseDir . '/app/Entities'),

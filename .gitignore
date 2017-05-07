@@ -46,3 +46,4 @@ tmp/
 tmp/*
 *.env
 composer.lock
+vendor
