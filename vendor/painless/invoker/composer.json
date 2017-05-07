@@ -1,5 +1,5 @@
 {
-  "name": "painless/pandora",
+  "name": "painless/invoker",
   "description": "Gerador de classes",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -12,7 +12,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Invoker\\": "src/Invoker"
+      "Pandora\\": "src/Pandora"
     }
   },
   "require": {
