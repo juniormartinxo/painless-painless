@@ -1,6 +1,6 @@
 # README #
 
-O Factory tem como função criar classes automaticamente utilizando instruções vindas diretamente do banco de dados.
+Sem dor.
 
 # Bancos de dados compatíveis
 * MySQL

@@ -11,11 +11,18 @@ $dotEnv = new Dotenv\Dotenv(__DIR__);
 $dotEnv->load();
 
 use Pandora\Connection\Conn;
+use Pandora\Utils\ExtractFilesDir;
 
-// Informações de conexão com o banco de dados
-define('DB_NAME', $_ENV['DB_NAME']);
-define('DB_HOST', $_ENV['DB_HOST']);
-define('DB_USER', $_ENV['DB_USER']);
-define('DB_PASS', $_ENV['DB_PASS']);
+$config = new ExtractFilesDir('config');
 
-$conn = new Conn(DB_NAME, DB_HOST, DB_USER, DB_PASS);
+$config = array_merge(include "config/database.php");
+
+// Conexão com o banco de dados
+$conn = new Conn($config['DB_NAME'], $config['DB_HOST'], $config['DB_USER'], $config['DB_PASS']);
+
+// Twig
+$loader = new Twig_Loader_Filesystem('public/views');
+$twig   = new Twig_Environment($loader, [
+    'cache'       => 'tmp/cache/views',
+    'auto_reload' => true
+]);

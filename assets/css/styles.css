@@ -1,0 +1,23 @@
+*, html, body {
+  font-family: 'Sacramento', cursive;
+  font-size: 64px; }
+
+body {
+  background: #fafafa;
+  font-size: 12px; }
+
+.container {
+  margin-top: 100px;
+  width: 400px;
+  left: 50%;
+  margin-left: -220px;
+  padding: 25px 10px;
+  top: 200px;
+  position: absolute;
+  color: #e5aca6; }
+  .container h1.title {
+    font-size: 128px;
+    text-align: center; }
+  .container p {
+    font-size: 36px;
+    text-align: center; }
