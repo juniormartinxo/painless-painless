@@ -36,7 +36,7 @@ gulp.task('uglify', function ()
 
 gulp.task('htmlmin', function ()
 {
-    return gulp.src('assets/views/*.html')
+    return gulp.src('assets/views/**/*.html')
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest('public/views'))
         .pipe(livereload());
@@ -62,6 +62,7 @@ gulp.task('watch', function ()
 {
     livereload.listen();
     gulp.watch('assets/views/*.html', ['htmlmin']);
+    gulp.watch('assets/views/**/*.html', ['htmlmin']);
     gulp.watch('assets/js/**/*.js', ['uglify']);
     gulp.watch('assets/sass/**/*.scss', ['sass']);
     gulp.watch('assets/css/**/*.css', ['cssmin']);

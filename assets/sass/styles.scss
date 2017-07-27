@@ -1,5 +1,5 @@
 *, html, body {
-    font-family: 'Sacramento', cursive;
+    font-family: 'Syncopate', sans-serif;
     font-size: 64px;
 }
 
@@ -8,23 +8,12 @@ body {
     font-size: 12px;
 }
 
-.container {
-    margin-top: 100px;
-    width: 400px;
-    left: 50%;
-    margin-left: -220px;
-    padding: 25px 10px;
-    top: 200px;
+.logo {
+    font-size: 100px;
+    text-align: center;
+    text-shadow: #858585 1px 2px 3px;
+    color: #ec3e52;
+    top:30%;
     position: absolute;
-    color: #e5aca6;
-
-    h1.title {
-        font-size: 128px;
-        text-align: center;
-    }
-
-    p {
-        font-size: 36px;
-        text-align: center;
-    }
+    width: 100%;
 }

@@ -7,13 +7,15 @@
  * Time: 11:38
  */
 
-include 'bootstrap.php';
-
+require 'vendor/autoload.php';
 
 use Pandora\Builder\BuilderSave;
+use Pandora\Config\Files;
 use Pandora\Connection\Conn;
 use Pandora\Database\Database;
 use Pandora\Maker\Maker;
+use Pandora\Maker\MakerActions;
+use Pandora\Utils\ExtractFiles;
 use Pandora\Utils\Memory;
 use Pandora\Utils\Terminal;
 use Pandora\Utils\Timer;
@@ -24,16 +26,31 @@ $timer->setTimeStart();
 $memory   = new Memory();
 $terminal = new Terminal();
 
-$cmd   = isset($argv[1]) ? $argv[1] : '';
-$table = isset($argv[2]) ? $argv[2] : '';
+// configurações do arquivo .env
+$dotEnv = new Dotenv\Dotenv(__DIR__);
+$dotEnv->load();
 
-$conn = new Conn(DB_NAME, DB_HOST, DB_USER, DB_PASS);
+$extractFilesDir = new ExtractFiles('config/');
+
+$configFiles = new Files($extractFilesDir);
+
+$config = $configFiles->load();
+
+$cmd   = isset($argv[1]) ? $argv[1] : '';
+
+$table = isset($argv[2]) && strstr($argv[2], 'table:') ? str_replace(':', '', strstr($argv[2], ':')) : '';
+
+$name  = isset($argv[2]) && strstr($argv[2], 'name:') ? str_replace(':', '', strstr($argv[2], ':')) : '';
+
+$conn = new Conn($config['DB_NAME'], $config['DB_HOST'], $config['DB_USER'], $config['DB_PASS']);
 
 $database = new Database($conn, $table);
 
 $save = new BuilderSave('app/', 'api/');
 
-$maker = new Maker($save, $database, $table);
+$makerActions = new MakerActions($save, $database, $name);
+
+$maker = new Maker($makerActions, $cmd);
 
 $maker->execute($cmd);
 

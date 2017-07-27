@@ -6,8 +6,4 @@
  * Time: 14:32
  */
 
-include "bootstrap.php";
-
-$template = $twig->load('index.html');
-
-echo $template->render();
+include __DIR__ . "/bootstrap.php";

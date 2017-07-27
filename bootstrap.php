@@ -7,22 +7,12 @@
  */
 require 'vendor/autoload.php';
 
-$dotEnv = new Dotenv\Dotenv(__DIR__);
-$dotEnv->load();
+$app = new \Slim\App();
 
-use Pandora\Connection\Conn;
-use Pandora\Utils\ExtractFilesDir;
+$container = $app->getContainer();
 
-$config = new ExtractFilesDir('config');
+include 'containers.php';
 
-$config = array_merge(include "config/database.php");
+include 'routes/web.php';
 
-// Conexão com o banco de dados
-$conn = new Conn($config['DB_NAME'], $config['DB_HOST'], $config['DB_USER'], $config['DB_PASS']);
-
-// Twig
-$loader = new Twig_Loader_Filesystem('public/views');
-$twig   = new Twig_Environment($loader, [
-    'cache'       => 'tmp/cache/views',
-    'auto_reload' => true
-]);
+$app->run();

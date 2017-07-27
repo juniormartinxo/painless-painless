@@ -30,11 +30,11 @@ Cada campo da tabela deve conter em seu comentário uma string JSon que contem a
     * **flag**: os flags são campos especiais que utilizam o campo nome para gerar uma string sem acentos ou caracteres especiais;
     * **cpf**: valida campos que armazenam CPFs;
     * **email**: valida campos que armazenam Emails;
-    * **token**: valida campos que armazenam Tokens;
+    * **token_user**: valida campos que armazenam Tokens de usuários;
     * **login**: valida campos que armazenam Login;
     * **password**: valida campos que armazenam Passwords;
 
-* _*validate_ref*_ -> string que informa a qual campo a validação faz referência, a exemplo os campos de validação do tipo "**flag**" ou "**token**", ele são gerados automaticamente pelos sistema com base nas funções "_flag()_" e "_token()_" respectivamente;
+* _*validate_ref*_ -> string que informa a qual campo a validação faz referência, a exemplo os campos de validação do tipo "**flag**", "**jwt**" ou "**token**", ele são gerados automaticamente pelos sistema com base nas funções "_flag()_", "_jwt()_" e "_token()_" respectivamente;
 
 * _*insert*_ -> valor booleano que informa se o campo estará disponível em páginas de inserção de registro;
 
