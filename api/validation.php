@@ -23,3 +23,5 @@ $data->setId($_ENV['JWT_ID']);
 
 $data->setCurrentTime(time() + 60); // changing the validation time to future
 $data->setCurrentTime(time() + 4000); // changing the validation time to future
+
+print_r($data);

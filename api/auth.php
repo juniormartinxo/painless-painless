@@ -14,7 +14,7 @@ use Pandora\Database\DataManager;
 
 $user = new Users();
 
-$dm = new DataManager($conn, $user);
+$dm = new DataManager($ROUTE_CONN, $user);
 
 $login = $_REQUEST['login'] ?? '';
 $senha = $_REQUEST['senha'] ?? '';
@@ -31,14 +31,14 @@ $jwtBuilder = new Builder();
 
 $signer = new Sha256();
 
-$token = $jwtBuilder->setIssuer($_ENV['JWT_ISSUER'])
-                    ->setAudience($_ENV['JWT_AUDIENCE'])
-                    ->setId($_ENV['JWT_ID'], true)
-                    ->setIssuedAt(time())
-                    ->setNotBefore(time() + 60)
-                    ->setExpiration(time() + 3600)
+$token = $jwtBuilder->setIssuer($ROUTE_CONFIG['JWT_ISSUER'])
+                    ->setAudience($ROUTE_CONFIG['JWT_AUDIENCE'])
+                    ->setId($ROUTE_CONFIG['JWT_ID'], true)
+                    ->setIssuedAt($ROUTE_CONFIG['JWT_ISSUEAT'])
+                    ->setNotBefore($ROUTE_CONFIG['JWT_NOTBEFORE'])
+                    ->setExpiration($ROUTE_CONFIG['JWT_EXPIRATION']) // expira com 10 (dez) minutos
                     ->set('scope', $auth)
-                    ->sign($signer, $_ENV['JWT_SECRET'])
+                    ->sign($signer, $ROUTE_CONFIG['JWT_SECRET'])
                     ->getToken();
 
 echo $token;
