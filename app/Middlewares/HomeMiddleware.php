@@ -6,7 +6,7 @@
  * Time: 19:22
  */
 
-namespace Middlewares;
+namespace App\Middlewares;
 
 
 class HomeMiddleware

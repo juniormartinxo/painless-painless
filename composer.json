@@ -19,8 +19,9 @@
   },
   "autoload": {
     "psr-4": {
-      "Entities\\": "app/Entities/",
-      "Middlewares\\":"app/Middlewares/"
+      "App\\Entities\\": "app/Entities/",
+      "App\\Middlewares\\":"app/Middlewares/",
+      "App\\Controllers\\":"app/Controllers/"
     }
   },
   "require-dev": {

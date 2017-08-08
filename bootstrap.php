@@ -7,6 +7,8 @@
  */
 require 'vendor/autoload.php';
 
+define('DS', DIRECTORY_SEPARATOR);
+
 $app = new \Slim\App();
 
 $container = $app->getContainer();

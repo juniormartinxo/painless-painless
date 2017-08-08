@@ -6,7 +6,7 @@
  * Time: 21:51
  */
 
-namespace Middlewares;
+namespace App\Middlewares;
 
 
 use Psr\Http\Message\ResponseInterface;

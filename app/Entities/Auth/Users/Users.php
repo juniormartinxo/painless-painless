@@ -6,7 +6,7 @@
  * Time: 13:07
 */
 
-namespace Entities\Auth\Users;
+namespace App\Entities\Auth\Users;
 
 
 use Pandora\Contracts\Database\iDataObject;

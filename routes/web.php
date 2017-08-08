@@ -6,8 +6,8 @@
  * Time: 11:30
  */
 
-use Middlewares\AuthMiddleware;
-use Middlewares\HomeMiddleware;
+use App\Middlewares\AuthMiddleware;
+use App\Middlewares\HomeMiddleware;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -27,6 +27,8 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
             ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     }
 ]));
+
+include $container['config']['PATH_ROUTES'] . DS . 'AuthRoutes.php';
 
 $app->get('/auth', function (Request $request, Response $response, $arguments) {
     $ROUTE_CONN   = $this->conn;

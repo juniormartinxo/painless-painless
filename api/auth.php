@@ -6,7 +6,7 @@
  * Time: 10:44
  */
 
-use Entities\Auth\Users\Users;
+use App\Entities\Auth\Users\Users;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Pandora\Auth\Authenticate;
