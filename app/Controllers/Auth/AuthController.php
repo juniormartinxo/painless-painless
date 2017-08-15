@@ -6,7 +6,7 @@
  * Time: 07:03
  */
 
-namespace App\Controllers;
+namespace App\Controllers\Auth;
 
 class AuthController
 {
@@ -23,7 +23,11 @@ class AuthController
         $login = $args['login'];//$request->getAttribute('login');
         $senha = $args['senha'];//$request->getAttribute('senha');
         
-        echo $login . ' - ' . $senha;
+        //print_r($this->container->dm->getObject());
+        
+        //echo $login . ' - ' . $senha;
+        
+        print_r($response);
         
         return $response;
     }

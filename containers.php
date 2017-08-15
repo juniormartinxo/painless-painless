@@ -28,12 +28,15 @@ $container['jwt'] = function ($c) {
     return new StdClass;
 };
 
-
 $container['conn'] = function ($c) {
     // Conexão com o banco de dados
     $conn = new Conn($c['config']['DB_NAME'], $c['config']['DB_HOST'], $c['config']['DB_USER'], $c['config']['DB_PASS']);
     
     return $conn;
+};
+
+$container['validation'] = function ($c) {
+    return new StdClass;
 };
 
 $container['twig'] = function ($c) {

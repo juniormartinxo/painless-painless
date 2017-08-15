@@ -28,7 +28,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
     }
 ]));
 
-include $container['config']['PATH_ROUTES'] . DS . 'AuthRoutes.php';
+include $container['config']['PATH_ROUTES'] . DS . 'Auth' . DS . 'AuthRoutes.php';
 
 $app->get('/auth', function (Request $request, Response $response, $arguments) {
     $ROUTE_CONN   = $this->conn;
