@@ -6,7 +6,7 @@ Sem dor.
 * MySQL
 
 # Instruções da tabela
-Todas as instruções para a criação da classe são baseadas nas informações da tabela que está sendo tranformada em classe vem do banco de dados. São utilizadas instruções SQL para a captura das informações.
+Todas as instruções para a criação da classe são baseadas nas informações da tabela que está sendo transformada em classe vem do banco de dados. São utilizadas instruções SQL para a captura das informações.
 
 # Nomeando tabelas
 Para que tudo fique corretamente separado, as tabelas obrigatoriamente devem possuir um prefixo seguido de underline (_), o prefixo é visto como um grupo, ou seja, tabelas com mesmos prefixos são armazenadas juntas.
@@ -44,3 +44,44 @@ Cada campo da tabela deve conter em seu comentário uma string JSon que contem a
 
 # Arquivos de interação com o banco de dados
 Os arquivos de interação com o banco de dados ficam dentro do diretório "_api/*_" com as ações de INSERT, UPDATE, ENABLE e DISABLE.
+
+# Preenchendo o arquivo de configuração .env
+
+#### Informações do banco de dados
+* **DB_CONNECTION**<br/>
+Tipo de conexão do banco de dados, no momento Painless só aceita MySQL.
+
+* **DB_HOST:**<br/>
+Endereço da conexão com o banco de dados.
+
+* **DB_PORT**<br/>
+Porta da conexão com o banco de dados.
+
+* **DB_NAME**<br/>
+Nome do banco de dados.
+
+* **DB_USER**<br/>
+Nome do usuário do banco de dados.
+
+* **DB_PASS**<br/>
+Senha do banco de dados
+
+#### Informações das pastas do template
+* **VIEW_PATH**<br/>
+Pasta onde ficam a views do sistema
+ 
+* **VIEW_CACHE**<br/>
+Pasta onde ficam os arquivos de cache das views do sistema
+
+#### Informações do Token
+* **JWT_ISSUER**<br/>
+Origem do token.
+
+* **JWT_AUDIENCE**<br/>
+Público reivindicado.
+
+* **JWT_ID**<br/>
+Entidade a quem o token pertence, normalmente o ID do usuário
+
+* **JWT_SECRET**<br/>
+Chave secreta.

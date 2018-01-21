@@ -21,7 +21,8 @@
     "psr-4": {
       "App\\Entities\\": "app/Entities/",
       "App\\Middlewares\\":"app/Middlewares/",
-      "App\\Controllers\\":"app/Controllers/"
+      "App\\Controllers\\":"app/Controllers/",
+      "App\\Actions\\":"app/Actions/"
     }
   },
   "require-dev": {

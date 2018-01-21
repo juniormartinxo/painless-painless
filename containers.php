@@ -9,6 +9,7 @@
 use Pandora\Config\Files;
 use Pandora\Connection\Conn;
 use Pandora\Utils\ExtractFiles;
+use Pandora\Validation\Validation;
 
 $container['config'] = function () {
     // configurações do arquivo .env
@@ -36,7 +37,9 @@ $container['conn'] = function ($c) {
 };
 
 $container['validation'] = function ($c) {
-    return new StdClass;
+    $validation = new Validation();
+    
+    return $validation;
 };
 
 $container['twig'] = function ($c) {
@@ -76,11 +79,20 @@ $container['notAllowedHandler'] = function ($c) {
 
 $container['phpErrorHandler'] = function ($c) {
     return function ($request, $response, $error) use ($c) {
+        print_r($error);
         $template = $c['twig']->load('errors/500.html');
         
         return $c['response']
             ->withStatus(500)
             ->withHeader('Content-Type', 'text/html')
             ->write($template->render());
+    };
+};
+
+$container['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+        return $c['response']->withStatus(500)
+                             ->withHeader('Content-Type', 'text/html')
+                             ->write(print_r($exception));
     };
 };

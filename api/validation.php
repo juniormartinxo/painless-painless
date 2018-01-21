@@ -9,8 +9,6 @@
 use Lcobucci\JWT\ValidationData;
 use Lcobucci\JWT\Parser;
 
-$token
-
 $parser = new Parser();
 
 $token = $parser->parse($token);
