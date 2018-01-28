@@ -13,8 +13,7 @@ var rename      = require('gulp-rename');
 
 gulp.task('clean', function ()
 {
-    return gulp.src('public/')
-        .pipe(clean());
+    return gulp.src('public/').pipe(clean());
 });
 
 gulp.task('jshint', function ()
