@@ -22,7 +22,8 @@
       "App\\Entities\\": "app/Entities/",
       "App\\Middlewares\\":"app/Middlewares/",
       "App\\Controllers\\":"app/Controllers/",
-      "App\\Actions\\":"app/Actions/"
+      "App\\Actions\\":"app/Actions/",
+      "Api\\":"api/"
     }
   },
   "require-dev": {

@@ -18,18 +18,26 @@ class AuthController
         $this->container = $container;
     }
     
-    public function login($request, $response, $args)
+    public function login()
     {
-        $login = $args['login'];//$request->getAttribute('login');
-        $senha = $args['senha'];//$request->getAttribute('senha');
+        $authenticate = $this->container->authenticate;
+        $auth         = $authenticate->getin();
         
-        //print_r($this->container->dm->getObject());
+        $jwtBuilder = $this->container->jwtBuilder;
         
-        //echo $login . ' - ' . $senha;
+        $config = $this->container->config;
         
-        print_r($response);
+        $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
+                            ->setAudience($config['JWT_AUDIENCE'])
+                            ->setId($config['JWT_ID'], true)
+                            ->setIssuedAt($config['JWT_ISSUEAT'])
+                            ->setNotBefore($config['JWT_NOTBEFORE'])
+                            ->setExpiration($config['JWT_EXPIRATION'])// expira com 10 (dez) minutos
+                            ->set('scope', $auth)
+                            ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
+                            ->getToken();
         
-        return $response;
+        return print('Bearer ' . $token);
     }
     
     public function logout($request, $response, $args)
@@ -39,5 +47,19 @@ class AuthController
         echo 'logout';
         
         return $response;
+    }
+    
+    public function verify()
+    {
+        $params = $this->container->request->getServerParams();
+        
+        $token = str_replace('Bearer ', '', $params['HTTP_AUTHORIZATION']);
+        $token = $this->container->jwtParser->parse($token);
+        
+        $data = $this->container->jwtValidation;
+        
+        print_r($token->validate($data));
+        
+        return $token->validate($data);
     }
 }

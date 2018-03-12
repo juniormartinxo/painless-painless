@@ -8,7 +8,6 @@
 
 namespace App\Middlewares;
 
-
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,7 +22,7 @@ class AuthMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        if (isset($_SESSION['logado'])) {
+        if (isset($_SESSION[$_ENV['SESSION_NAME']]['logado'])) {
             $request = $request->withAttribute('foo2', 'Deu certo de novo');
             $response = $next($request, $response);
         } else {

@@ -11,10 +11,13 @@ define('DS', DIRECTORY_SEPARATOR);
 
 $app = new \Slim\App();
 
-$container = $app->getContainer();
-
+// Containers
 include 'containers.php';
 
+// Routes
+include 'routes/auth.php';
 include 'routes/web.php';
+include 'routes/app.php';
+include 'routes/api.php';
 
 $app->run();

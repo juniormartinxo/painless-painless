@@ -6,10 +6,17 @@
  * Time: 08:49
  */
 
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\ValidationData;
 use Pandora\Config\Files;
 use Pandora\Connection\Conn;
 use Pandora\Utils\ExtractFiles;
 use Pandora\Validation\Validation;
+
+// $app está setado no arquivo "bootstrap.php"
+$container = $app->getContainer();
 
 $container['config'] = function () {
     // configurações do arquivo .env
@@ -27,6 +34,22 @@ $container['config'] = function () {
 
 $container['jwt'] = function ($c) {
     return new StdClass;
+};
+
+$container['jwtBuilder'] = function ($c) {
+    return new Builder();
+};
+
+$container['jwtSigner'] = function ($c) {
+    return new Sha256();
+};
+
+$container['jwtValidation'] = function ($c) {
+    return new ValidationData();
+};
+
+$container['jwtParser'] = function ($c) {
+    return new Parser();
 };
 
 $container['conn'] = function ($c) {
