@@ -14,5 +14,5 @@ return [
     'JWT_AUDIENCE'   => $_ENV['JWT_AUDIENCE'],
     'JWT_ISSUEAT'    => time(),
     'JWT_NOTBEFORE'  => time() + 1,
-    'JWT_EXPIRATION' => time() + 600
+    'JWT_EXPIRATION' => time() + 900 // 15 minutos
 ];

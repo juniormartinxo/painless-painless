@@ -21,45 +21,63 @@ class AuthController
     public function login()
     {
         $authenticate = $this->container->authenticate;
-        $auth         = $authenticate->getin();
         
-        $jwtBuilder = $this->container->jwtBuilder;
+        $auth = $authenticate->getin();
         
-        $config = $this->container->config;
+        print_r($auth);
         
-        $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
-                            ->setAudience($config['JWT_AUDIENCE'])
-                            ->setId($config['JWT_ID'], true)
-                            ->setIssuedAt($config['JWT_ISSUEAT'])
-                            ->setNotBefore($config['JWT_NOTBEFORE'])
-                            ->setExpiration($config['JWT_EXPIRATION'])// expira com 10 (dez) minutos
-                            ->set('scope', $auth)
-                            ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
-                            ->getToken();
+        $verify = $auth['verify'] ?? false;
         
-        return print('Bearer ' . $token);
+        if ($verify) {
+            $jwtBuilder = $this->container->jwtBuilder;
+            
+            $config = $this->container->config;
+            
+            $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
+                                ->setAudience($config['JWT_AUDIENCE'])
+                                ->setId($config['JWT_ID'], true)
+                                ->setIssuedAt($config['JWT_ISSUEAT'])
+                                ->setNotBefore($config['JWT_NOTBEFORE'])
+                                ->setExpiration($config['JWT_EXPIRATION'])
+                                ->set('scope', $auth)
+                                ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
+                                ->getToken();
+            
+            return print('Bearer ' . $token);
+        } else {
+            return json_encode([
+                'status'  => 'error',
+                'message' => 'login ou senha inv&aacute;lido'
+            ]);
+        }
     }
     
     public function logout($request, $response, $args)
     {
         // your code
         // to access items in the container... $this->container->get('');
-        echo 'logout';
         
         return $response;
     }
     
-    public function verify()
+    public function refresh()
     {
-        $params = $this->container->request->getServerParams();
+        $auth = $this->container->jwt->scope;
         
-        $token = str_replace('Bearer ', '', $params['HTTP_AUTHORIZATION']);
-        $token = $this->container->jwtParser->parse($token);
+        $config = $this->container->config;
         
-        $data = $this->container->jwtValidation;
+        $jwtBuilder = $this->container->jwtBuilder;
         
-        print_r($token->validate($data));
+        $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
+                            ->setAudience($config['JWT_AUDIENCE'])
+                            ->setId($config['JWT_ID'], true)
+                            ->setIssuedAt($config['JWT_ISSUEAT'])
+                            ->setNotBefore($config['JWT_NOTBEFORE'])
+                            ->setExpiration($config['JWT_EXPIRATION'])
+                            ->set('scope', $auth)
+                            ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
+                            ->getToken();
         
-        return $token->validate($data);
+        return print('Bearer ' . $token);
     }
 }

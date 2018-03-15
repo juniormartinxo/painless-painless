@@ -16,8 +16,8 @@ include 'containers.php';
 
 // Routes
 include 'routes/auth.php';
-include 'routes/web.php';
 include 'routes/app.php';
 include 'routes/api.php';
+include 'routes/web.php';
 
 $app->run();
