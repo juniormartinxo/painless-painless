@@ -46,6 +46,7 @@ tmp/
 tmp/*
 *.env
 composer.lock
+package.json.lock
 vendor
 node_modules
 /phpunit.xml
