@@ -10,9 +10,9 @@
 $app->add(new \Slim\Middleware\JwtAuthentication([
     "secret"      => $container['config']['JWT_SECRET'],
     // Cobertura da autenticação, no caso de "/" protege todos os links
-    "path"        => ["/"],
+    "path"        => $container['config']['PATH_PROTECTED'],
     // Links livres da verificação da autenticação
-    "passthrough" => ["/auth"],
+    "passthrough" => $container['config']['PATH_PASSTHROUGH'],
     // Se tudo der certo dispara o callback
     "callback"    => function ($request, $response, $arguments) use ($container) {
         $container["jwt"] = $arguments["decoded"];

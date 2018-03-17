@@ -24,8 +24,6 @@ class AuthController
         
         $auth = $authenticate->getin();
         
-        print_r($auth);
-        
         $verify = $auth['verify'] ?? false;
         
         if ($verify) {
@@ -47,17 +45,9 @@ class AuthController
         } else {
             return json_encode([
                 'status'  => 'error',
-                'message' => 'login ou senha inv&aacute;lido'
+                'message' => 'Login ou senha inv&aacute;lido'
             ]);
         }
-    }
-    
-    public function logout($request, $response, $args)
-    {
-        // your code
-        // to access items in the container... $this->container->get('');
-        
-        return $response;
     }
     
     public function refresh()

@@ -28,8 +28,7 @@ $container['authenticate'] = function ($c) {
 $app->group('/auth', function () {
     // Autentica e retorna um token JWT
     $this->map(['GET', 'POST'], '/login[/{login}[/{senha}]]', \App\Controllers\Auth\AuthController::class . ':login');
-    $this->map(['GET', 'POST'], '/logout', \App\Controllers\Auth\AuthController::class . ':logout');
 });
 
 // Renova o token JWT
-$app->map(['GET', 'POST'], '/refresh', \App\Controllers\Auth\AuthController::class . ':refresh');
+$app->map(['GET', 'POST'], '/api/auth_refresh', \App\Controllers\Auth\AuthController::class . ':refresh');
