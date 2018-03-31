@@ -7,7 +7,25 @@
     <link rel="stylesheet" type="text/css" href="public/css/styles.css">
 </head>
 <body>
-<h1 class="logo">Painless<br>{{foo}} <br>{{foo2}}</h1>
+<a href="https://github.com/junioraluisio/painless-painless" class="github">
+    <i class="fab fa-github"></i>
+</a>
+<h1 class="logo">Painless</h1>
+<nav class="box-nav-principal">
+    <ul class="nav-principal">
+        <li><a class="logo-menu" href="home">P</a></li>
+        {% for item in navigation %}
+        <li>
+            <a href="{{ item['url'] }}" class="{{ item['status'] }}">{{ item['normal'] }}</a>
+        </li>
+        {% endfor %}
+        <li>
+
+        </li>
+    </ul>
+</nav>
+<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/brands.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/fontawesome.js"></script>
 <script src="public/js/all.min.js"></script>
 </body>
 </html>

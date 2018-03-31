@@ -46,8 +46,9 @@ tmp/
 tmp/*
 *.env
 composer.lock
-package.json.lock
+package-lock.json
 vendor
 node_modules
 /phpunit.xml
 /tests/
+/public

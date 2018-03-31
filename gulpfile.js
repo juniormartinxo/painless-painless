@@ -4,6 +4,7 @@ var clean       = require('gulp-clean');
 var concat      = require('gulp-concat');
 var uglify      = require('gulp-uglify');
 var htmlmin     = require('gulp-htmlmin');
+var imagemin    = require('gulp-imagemin');
 var sass        = require('gulp-sass');
 var cleanCSS    = require('gulp-clean-css');
 var livereload  = require('gulp-livereload');
@@ -14,8 +15,49 @@ var pump        = require('pump');
 //var es     = require('event-stream');
 //var rename = require('gulp-rename');
 
-gulp.task('clean', function () {
-    return gulp.src('public/').pipe(clean());
+gulp.task('clean', function (cb) {
+    pump([
+            gulp.src('public/'),
+            clean()
+        ],
+        cb
+    );
+});
+
+gulp.task('clean-css', function (cb) {
+    pump([
+            gulp.src('public/css/*'),
+            clean()
+        ],
+        cb
+    );
+});
+
+gulp.task('clean-images', function (cb) {
+    pump([
+            gulp.src('public/images/*'),
+            clean()
+        ],
+        cb
+    );
+});
+
+gulp.task('clean-js', function (cb) {
+    pump([
+            gulp.src('public/js/*'),
+            clean()
+        ],
+        cb
+    );
+});
+
+gulp.task('clean-views', function (cb) {
+    pump([
+            gulp.src('public/views/*'),
+            clean()
+        ],
+        cb
+    );
 });
 
 gulp.task('lint', function (cb) {
@@ -52,9 +94,20 @@ gulp.task('htmlmin', function (cb) {
     );
 });
 
+gulp.task('imagemin', function (cb) {
+    pump([
+            gulp.src('assets/images/**/*'),
+            imagemin(),
+            gulp.dest('public/images'),
+            livereload()
+        ],
+        cb
+    );
+});
+
 gulp.task('sass', function (cb) {
     pump([
-            gulp.src('assets/sass/**/*.scss'),
+            gulp.src('assets/sass/styles.scss'),
             sass().on('error', sass.logError),
             gulp.dest('assets/css')
         ],
@@ -64,7 +117,7 @@ gulp.task('sass', function (cb) {
 
 gulp.task('cssmin', function (cb) {
     pump([
-            gulp.src(['assets/css/**/*.css']),
+            gulp.src(['assets/css/styles.css']),
             cleanCSS(),
             concat('styles.css'),
             gulp.dest('public/css'),
@@ -76,13 +129,14 @@ gulp.task('cssmin', function (cb) {
 
 gulp.task('watch', function () {
     livereload.listen();
-    gulp.watch('assets/views/*.html', ['htmlmin']);
-    gulp.watch('assets/views/**/*.html', ['htmlmin']);
-    gulp.watch('assets/js/**/*.js', ['compress']);
+    gulp.watch('assets/views/*.html', ['htmlmin'/*,'clean-views'*/]);
+    gulp.watch('assets/views/**/*.html', ['htmlmin'/*,'clean-views'*/]);
+    gulp.watch('assets/images/**/*', ['imagemin'/*,'clean-image'*/]);
+    gulp.watch('assets/js/**/*.js', ['compress'/*,'clean-js'*/]);
     gulp.watch('assets/sass/**/*.scss', ['sass']);
-    gulp.watch('assets/css/**/*.css', ['cssmin']);
+    gulp.watch('assets/css/**/*.css', ['cssmin'/*,'clean-css'*/]);
 });
 
 gulp.task('default', function (cb) {
-    return runSequence('clean', ['lint', 'compress', 'htmlmin', 'sass', 'cssmin', 'watch'], cb)
+    return runSequence('clean', ['lint', 'compress', 'htmlmin', 'imagemin', 'sass', 'cssmin', 'watch'], cb)
 });
