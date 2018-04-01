@@ -1,19 +1,20 @@
-var gulp        = require('gulp');
-var jshint      = require('gulp-jshint');
-var clean       = require('gulp-clean');
-var concat      = require('gulp-concat');
-var uglify      = require('gulp-uglify');
-var htmlmin     = require('gulp-htmlmin');
-var imagemin    = require('gulp-imagemin');
-var sass        = require('gulp-sass');
-var cleanCSS    = require('gulp-clean-css');
-var livereload  = require('gulp-livereload');
-var runSequence = require('run-sequence');
-var pump        = require('pump');
+let gulp        = require('gulp');
+let jshint      = require('gulp-jshint');
+let clean       = require('gulp-clean');
+let concat      = require('gulp-concat');
+let babel       = require('gulp-babel');
+let uglify      = require('gulp-uglify');
+let htmlmin     = require('gulp-htmlmin');
+let imagemin    = require('gulp-imagemin');
+let sass        = require('gulp-sass');
+let cleanCSS    = require('gulp-clean-css');
+let livereload  = require('gulp-livereload');
+let runSequence = require('run-sequence');
+let pump        = require('pump');
 
 /* Utils */
-//var es     = require('event-stream');
-//var rename = require('gulp-rename');
+//let es     = require('event-stream');
+//let rename = require('gulp-rename');
 
 gulp.task('clean', function (cb) {
     pump([
@@ -63,7 +64,7 @@ gulp.task('clean-views', function (cb) {
 gulp.task('lint', function (cb) {
     pump([
             gulp.src('assets/js/**/*.js'),
-            jshint(),
+            jshint({esversion: '6'}),
             jshint.reporter('default')
         ],
         cb
@@ -74,6 +75,7 @@ gulp.task('compress', function (cb) {
     pump([
             gulp.src('assets/js/**/*.js'),
             concat('scripts.js'),
+            babel({presets: ['env'], plugins: ['transform-runtime']}),
             uglify(),
             concat('all.min.js'),
             gulp.dest('public/js'),
