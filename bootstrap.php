@@ -7,6 +7,8 @@
  */
 require 'vendor/autoload.php';
 
+date_default_timezone_set('America/Sao_paulo');
+
 define('DS', DIRECTORY_SEPARATOR);
 
 $app = new \Slim\App();
@@ -16,6 +18,7 @@ include 'containers.php';
 
 // Routes
 include 'routes/auth.php';
+include 'routes/authJWT.php';
 include 'routes/app.php';
 include 'routes/api.php';
 include 'routes/web.php';

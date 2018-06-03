@@ -7,6 +7,6 @@
  */
 return [
     // Informações de conexão com o banco de dados
-    'PATH_PROTECTED'   => explode('|', $_ENV['PATH_PROTECTED']),
-    'PATH_PASSTHROUGH' => explode('|', $_ENV['PATH_PASSTHROUGH'])
+    'JWT_PATH_PROTECTED'   => explode('|', $_ENV['JWT_PATH_PROTECTED']),
+    'JWT_PATH_PASSTHROUGH' => explode('|', $_ENV['JWT_PATH_PASSTHROUGH'])
 ];

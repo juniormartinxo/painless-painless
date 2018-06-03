@@ -28,7 +28,36 @@ class WebController
         
         $load = $this->container->twig->load($page . '.html');
         
-        $vars = ['navigation' => $navigation];
+        $vars['navigation'] = $navigation;
+        $vars['path_web']   = $this->container->config['PATH_WEB'];
+        
+        $response->getBody()->write($load->render($vars));
+        
+        return $response;
+    }
+    
+    public function password_recover($request, $response, $args)
+    {
+        $page = 'recover_password';
+        
+        $load = $this->container->twig->load($page . '.html');
+        
+        $vars['path_web'] = $this->container->config['PATH_WEB'];
+        
+        $response->getBody()->write($load->render($vars));
+        
+        return $response;
+    }
+    
+    public function password_new($request, $response, $args)
+    {
+        $page = 'create_new_password';
+        
+        $token = $request->getAttribute('token');
+        
+        $load = $this->container->twig->load($page . '.html');
+        
+        $vars['path_web'] = $this->container->config['PATH_WEB'];
         
         $response->getBody()->write($load->render($vars));
         

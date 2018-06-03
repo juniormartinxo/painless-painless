@@ -27,47 +27,20 @@ class AuthController
         $verify = $auth['verify'] ?? false;
         
         if ($verify) {
-            $jwtBuilder = $this->container->jwtBuilder;
+            $_SESSION[$_ENV['SESSION_NAME']]['auth'] = 'logado';
             
-            $config = $this->container->config;
-            
-            $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
-                                ->setAudience($config['JWT_AUDIENCE'])
-                                ->setId($config['JWT_ID'], true)
-                                ->setIssuedAt($config['JWT_ISSUEAT'])
-                                ->setNotBefore($config['JWT_NOTBEFORE'])
-                                ->setExpiration($config['JWT_EXPIRATION'])
-                                ->set('scope', $auth)
-                                ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
-                                ->getToken();
-            
-            return print('Bearer ' . $token);
+            return json_encode([
+                'status'  => 'success',
+                'message' => 'Login efetivado com sucesso!'
+            ]);
         } else {
+            session_unset();
+            session_destroy();
+            
             return json_encode([
                 'status'  => 'error',
-                'message' => 'Login ou senha inv&aacute;lido'
+                'message' => 'Login ou senha inv&aacute;lido!'
             ]);
         }
-    }
-    
-    public function refresh()
-    {
-        $auth = $this->container->jwt->scope;
-        
-        $config = $this->container->config;
-        
-        $jwtBuilder = $this->container->jwtBuilder;
-        
-        $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
-                            ->setAudience($config['JWT_AUDIENCE'])
-                            ->setId($config['JWT_ID'], true)
-                            ->setIssuedAt($config['JWT_ISSUEAT'])
-                            ->setNotBefore($config['JWT_NOTBEFORE'])
-                            ->setExpiration($config['JWT_EXPIRATION'])
-                            ->set('scope', $auth)
-                            ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
-                            ->getToken();
-        
-        return print('Bearer ' . $token);
     }
 }

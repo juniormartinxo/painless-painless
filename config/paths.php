@@ -6,7 +6,7 @@
  * Time: 07:20
  */
 return [
-    // Informações de conexão com o banco de dados
+    // Informações dos caminhos da aplicação
     'PATH_ROOT' => dirname(path_root(),3),
     'PATH_WEB'  => dirname(path_web(),3),
     'PATH_ROUTES'  => dirname(path_root(),3) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Routes',
