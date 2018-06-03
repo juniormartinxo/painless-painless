@@ -38,7 +38,7 @@ class WebController
     
     public function password_recover($request, $response, $args)
     {
-        $page = 'recover_password';
+        $page = 'password_recover';
         
         $load = $this->container->twig->load($page . '.html');
         
@@ -51,7 +51,7 @@ class WebController
     
     public function password_new($request, $response, $args)
     {
-        $page = 'create_new_password';
+        $page = 'password_new';
         
         $token = $request->getAttribute('token');
         

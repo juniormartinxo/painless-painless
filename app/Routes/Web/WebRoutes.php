@@ -21,8 +21,6 @@ $app->any('/session/load', function ($request, $response, $args) use ($container
     print_r($container->config['PATH_WEB']);//['PATH_ROUTES'];// $_SESSION['painless']['auth'] ?? 'Não criado!';
 });
 
-//$app->any('/password/recover', \App\Controllers\Web\WebController::class . ':password_recover');
-
 $app->group('/password', function () {
     // Autentica e retorna um token JWT
     $this->map(['GET', 'POST'], '/recover', \App\Controllers\Web\WebController::class . ':password_recover');
