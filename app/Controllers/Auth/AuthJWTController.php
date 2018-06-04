@@ -29,16 +29,14 @@ class AuthJWTController
         if ($verify) {
             $jwtBuilder = $this->container->jwtBuilder;
             
-            $config = $this->container->config;
-            
-            $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
-                                ->setAudience($config['JWT_AUDIENCE'])
-                                ->setId($config['JWT_ID'], true)
-                                ->setIssuedAt($config['JWT_ISSUEAT'])
-                                ->setNotBefore($config['JWT_NOTBEFORE'])
-                                ->setExpiration($config['JWT_EXPIRATION'])
+            $token = $jwtBuilder->setIssuer(CONFIG['JWT_ISSUER'])
+                                ->setAudience(CONFIG['JWT_AUDIENCE'])
+                                ->setId(CONFIG['JWT_ID'], true)
+                                ->setIssuedAt(CONFIG['JWT_ISSUEAT'])
+                                ->setNotBefore(CONFIG['JWT_NOTBEFORE'])
+                                ->setExpiration(CONFIG['JWT_EXPIRATION'])
                                 ->set('scope', $auth)
-                                ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
+                                ->sign($this->container->jwtSigner, CONFIG['JWT_SECRET'])
                                 ->getToken();
                         
             return json_encode([
@@ -59,18 +57,16 @@ class AuthJWTController
     {
         $auth = $this->container->jwt->scope;
         
-        $config = $this->container->config;
-        
         $jwtBuilder = $this->container->jwtBuilder;
         
-        $token = $jwtBuilder->setIssuer($config['JWT_ISSUER'])
-                            ->setAudience($config['JWT_AUDIENCE'])
-                            ->setId($config['JWT_ID'], true)
-                            ->setIssuedAt($config['JWT_ISSUEAT'])
-                            ->setNotBefore($config['JWT_NOTBEFORE'])
-                            ->setExpiration($config['JWT_EXPIRATION'])
+        $token = $jwtBuilder->setIssuer(CONFIG['JWT_ISSUER'])
+                            ->setAudience(CONFIG['JWT_AUDIENCE'])
+                            ->setId(CONFIG['JWT_ID'], true)
+                            ->setIssuedAt(CONFIG['JWT_ISSUEAT'])
+                            ->setNotBefore(CONFIG['JWT_NOTBEFORE'])
+                            ->setExpiration(CONFIG['JWT_EXPIRATION'])
                             ->set('scope', $auth)
-                            ->sign($this->container->jwtSigner, $config['JWT_SECRET'])
+                            ->sign($this->container->jwtSigner, CONFIG['JWT_SECRET'])
                             ->getToken();
         
         return print('Bearer ' . $token);

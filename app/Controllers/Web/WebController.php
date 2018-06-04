@@ -23,41 +23,18 @@ class WebController
     {
         $navigation = $request->getAttribute('navigation');
         $path       = $request->getAttribute('path');
+        $auth       = $request->getAttribute('auth');
         
-        $page = !empty($path) ? $path : 'index';
+        if ($auth) {
+            $page = !empty($path) ? $path : 'index';
+        } else {
+            $page = 'login';
+        }
         
         $load = $this->container->twig->load($page . '.html');
         
         $vars['navigation'] = $navigation;
-        $vars['path_web']   = $this->container->config['PATH_WEB'];
-        
-        $response->getBody()->write($load->render($vars));
-        
-        return $response;
-    }
-    
-    public function password_recover($request, $response, $args)
-    {
-        $page = 'password_recover';
-        
-        $load = $this->container->twig->load($page . '.html');
-        
-        $vars['path_web'] = $this->container->config['PATH_WEB'];
-        
-        $response->getBody()->write($load->render($vars));
-        
-        return $response;
-    }
-    
-    public function password_new($request, $response, $args)
-    {
-        $page = 'password_new';
-        
-        $token = $request->getAttribute('token');
-        
-        $load = $this->container->twig->load($page . '.html');
-        
-        $vars['path_web'] = $this->container->config['PATH_WEB'];
+        $vars['path_web']   = CONFIG['PATH_WEB'];
         
         $response->getBody()->write($load->render($vars));
         

@@ -26,5 +26,5 @@ $container['authenticate'] = function ($c) {
 
 $app->group('/auth', function () {
     // Autentica e retorna um token JWT
-    $this->map(['GET', 'POST'], '/login[/{login}[/{senha}]]', \App\Controllers\Auth\AuthController::class . ':login');
+    $this->map(['GET', 'POST'], '/login[/{login}[/{senha}]]', \App\Controllers\Auth\PasswordController::class . ':login');
 });

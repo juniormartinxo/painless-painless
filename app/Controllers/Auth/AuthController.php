@@ -27,7 +27,8 @@ class AuthController
         $verify = $auth['verify'] ?? false;
         
         if ($verify) {
-            $_SESSION[$_ENV['SESSION_NAME']]['auth'] = 'logado';
+            $_SESSION[$_ENV['SESSION_NAME']]['auth'] = true;
+            $_SESSION[$_ENV['SESSION_NAME']]['user'] = $auth;
             
             return json_encode([
                 'status'  => 'success',

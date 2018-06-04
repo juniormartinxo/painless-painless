@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#btnLogar').click(function (e) {
         let user = $('#iptLogin').val();
         let pass = $('#iptPassword').val();
-        let url  = 'http://localhost/painless/painless/auth/login';
+        let url  = JS_PATH_WEB + '/auth/login';
 
         $.post(
             url,
@@ -24,7 +24,7 @@ $(document).ready(function () {
                 }
 
                 if (sts === 'success') {
-                    window.location.href = 'http://localhost/painless/painless/index';
+                    window.location.href = JS_PATH_WEB + '/index';
                 } else {
                     alertShake('#message', msg, 'danger', 'Faça login primeiro', 3000);
                 }
@@ -36,17 +36,29 @@ $(document).ready(function () {
 
     $('#btnEnviar').click(function (e) {
         let email = $('#iptEmail').val();
+        let url   = JS_PATH_WEB + '/password/send';
+
+        $.post(
+            url,
+            {
+                email: email
+            },
+            function (data) {
+                $('#msgRet').html(data);
+                //alertShake('#msgRet', data, 'danger', 'Faça login primeiro', 3000);
+            }
+        );
 
         e.preventDefault();
     });
 
     $('#btnRecuperar').click(function (e) {
-        let url = 'http://localhost/painless/painless/session/load';
+        let url = JS_PATH_WEB + '/session/load';
 
         $.post(
             url,
             function (data) {
-                    alertShake('#message', data, 'danger', 'Faça login primeiro', 3000);
+                alertShake('#message', data, 'danger', 'Faça login primeiro', 3000);
             }
         );
 

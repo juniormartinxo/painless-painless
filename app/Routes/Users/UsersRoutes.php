@@ -9,7 +9,7 @@
 use Pandora\Database\DataManager;
 use App\Entities\Auth\Users\Users;
 
-$container['dm'] = function ($c) {
+$container['dm_users'] = function ($c) {
     $users = new Users();
 
     return new DataManager($c['conn'], $users);

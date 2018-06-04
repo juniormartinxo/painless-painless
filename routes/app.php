@@ -6,4 +6,4 @@
  * Time: 11:30
  */
 
-include $container['config']['PATH_ROUTES'] . DS . 'Users' . DS . 'UsersRoutes.php';
+include CONFIG['PATH_ROUTES'] . DS . 'Users' . DS . 'UsersRoutes.php';

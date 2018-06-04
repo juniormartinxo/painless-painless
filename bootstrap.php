@@ -7,11 +7,32 @@
  */
 require 'vendor/autoload.php';
 
+use Pandora\Config\Files;
+use Pandora\Utils\ExtractFiles;
+
 date_default_timezone_set('America/Sao_paulo');
 
 define('DS', DIRECTORY_SEPARATOR);
 
-$app = new \Slim\App();
+$app = new \Slim\App([
+    'settings' => [
+        'displayErrorDetails' => false
+    ]
+]);
+
+// configurações do arquivo .env
+$dotEnv = new Dotenv\Dotenv(__DIR__);
+$dotEnv->load();
+
+$extractFilesDir = new ExtractFiles('config/');
+
+$configFiles = new Files($extractFilesDir);
+
+$config = $configFiles->load();
+
+define('CONFIG', $config);
+
+include "vendor/painless/invoker/src/Pandora/Debug/Debug.php";
 
 // Containers
 include 'containers.php';

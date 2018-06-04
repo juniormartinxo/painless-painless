@@ -8,11 +8,11 @@
  */
 
 $app->add(new \Slim\Middleware\JwtAuthentication([
-    "secret"      => $container['config']['JWT_SECRET'],
+    "secret"      => $_ENV['JWT_SECRET'],
     // Cobertura da autenticação, no caso de "/" protege todos os links
-    "path"        => $container['config']['JWT_PATH_PROTECTED'],
+    "path"        => $_ENV['JWT_PATH_PROTECTED'],
     // Links livres da verificação da autenticação
-    "passthrough" => $container['config']['JWT_PATH_PASSTHROUGH'],
+    "passthrough" => $_ENV['JWT_PATH_PASSTHROUGH'],
     // Se tudo der certo dispara o callback
     "callback"    => function ($request, $response, $arguments) use ($container) {
         $container["jwt"] = $arguments["decoded"];
@@ -30,4 +30,4 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
     }
 ]));
 
-include $container['config']['PATH_ROUTES'] . DS . 'Auth' . DS . 'AuthJWTRoutes.php';
+include CONFIG['PATH_ROUTES'] . DS . 'Auth' . DS . 'AuthJWTRoutes.php';

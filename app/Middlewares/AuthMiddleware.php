@@ -15,14 +15,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AuthMiddleware
 {
-    protected $container;
-    
-    // constructor receives container instance
-    public function __construct($container)
-    {
-        $this->container = $container;
-    }
-    
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface      $response
@@ -32,31 +24,9 @@ class AuthMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        $path = $request->getUri()->getPath();
+        $auth = $_SESSION[$_ENV['SESSION_NAME']]['auth'] ?? false;
         
-        $menus = $this->menus;
-        
-        foreach ($menus as $k => $menu) {
-            $menus[$k]['status']    = $menu['url'] == $path ? 'selected' : '';
-        }
-        
-        switch ($path) {
-            case '/':
-                $menus[0]['status'] = 'selected';
-                $page               = 'index';
-                break;
-            
-            case 'home':
-                $page = 'index';
-                break;
-            
-            default:
-                $page = $path;
-            
-        }
-        
-        $request = $request->withAttribute('navigation', $menus);
-        $request = $request->withAttribute('path', $page);
+        $request = $request->withAttribute('auth', $auth);
         
         $response = $next($request, $response);
         

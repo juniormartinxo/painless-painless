@@ -8,6 +8,7 @@ session_start();
  * Time: 17:00
  */
 
+use App\Middlewares\AuthMiddleware;
 use App\Middlewares\WebMenuMiddleware;
 
 $menus = [
@@ -18,13 +19,10 @@ $menus = [
 
 $app->any('/session/load', function ($request, $response, $args) use ($container) {
     //$container = $this->getContainer();
-    print_r($container->config['PATH_WEB']);//['PATH_ROUTES'];// $_SESSION['painless']['auth'] ?? 'Não criado!';
+    //print_r(CONFIG['PATH_WEB']);//['PATH_ROUTES'];// $_SESSION['painless']['auth'] ?? 'Não criado!';
+    echo $_SESSION[$_ENV['SESSION_NAME']]['auth'] ?? false;
 });
 
-$app->group('/password', function () {
-    // Autentica e retorna um token JWT
-    $this->map(['GET', 'POST'], '/recover', \App\Controllers\Web\WebController::class . ':password_recover');
-    $this->map(['GET', 'POST'], '/new/{token}', \App\Controllers\Web\WebController::class . ':password_new');
-});
-
-$app->any('/[{page}]', \App\Controllers\Web\WebController::class . ':render')->add(new WebMenuMiddleware($menus));
+$app->any('/[{page}]', \App\Controllers\Web\WebController::class . ':render')
+    ->add(new WebMenuMiddleware($menus))
+    ->add(new AuthMiddleware());
