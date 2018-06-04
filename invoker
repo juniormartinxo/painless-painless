@@ -23,30 +23,34 @@ use Pandora\Utils\Timer;
 $timer = new Timer();
 $timer->setTimeStart();
 
-$memory   = new Memory();
+$memory = new Memory();
 $terminal = new Terminal();
 
+try {
 // configurações do arquivo .env
-$dotEnv = new Dotenv\Dotenv(__DIR__);
-$dotEnv->load();
+    $dotEnv = new Dotenv\Dotenv(__DIR__);
+    $dotEnv->load();
 
-$extractFilesDir = new ExtractFiles('config/');
+    $extractFilesDir = new ExtractFiles('config/');
 
-$configFiles = new Files($extractFilesDir);
+    $configFiles = new Files($extractFilesDir);
 
-$config = $configFiles->load();
+    $config = $configFiles->load();
+} catch (Exception $e) {
+    $config = null;
+}
 
-$cmd   = isset($argv[1]) ? $argv[1] : '';
+$cmd = isset($argv[1]) ? $argv[1] : '';
 
 $table = isset($argv[2]) && strstr($argv[2], 'table:') ? str_replace(':', '', strstr($argv[2], ':')) : '';
 
-$name  = isset($argv[2]) && strstr($argv[2], 'name:') ? str_replace(':', '', strstr($argv[2], ':')) : '';
+$name = isset($argv[2]) && strstr($argv[2], 'name:') ? str_replace(':', '', strstr($argv[2], ':')) : '';
 
-$conn = new Conn($config['DB_NAME'], $config['DB_HOST'], $config['DB_USER'], $config['DB_PASS']);
+$conn = !is_null($config) ? new Conn($config['DB_NAME'], $config['DB_HOST'], $config['DB_USER'], $config['DB_PASS']) : null;
 
-$database = new Database($conn, $table);
+$database = !is_null($conn) ? new Database($conn, $table) : null;
 
-$save = new BuilderSave('app/', 'api/');
+$save = new BuilderSave('app/', 'api/', 'assets/');
 
 $makerActions = new MakerActions($save, $database, $name);
 

@@ -20,28 +20,32 @@ $app = new \Slim\App([
     ]
 ]);
 
-// configurações do arquivo .env
-$dotEnv = new Dotenv\Dotenv(__DIR__);
-$dotEnv->load();
+try {
+    // configurações do arquivo .env
+    $dotEnv = new Dotenv\Dotenv(__DIR__);
+    $dotEnv->load();
 
-$extractFilesDir = new ExtractFiles('config/');
+    $extractFilesDir = new ExtractFiles('config/');
 
-$configFiles = new Files($extractFilesDir);
+    $configFiles = new Files($extractFilesDir);
 
-$config = $configFiles->load();
+    $config = $configFiles->load();
 
-define('CONFIG', $config);
+    define('CONFIG', $config);
 
-include "vendor/painless/invoker/src/Pandora/Debug/Debug.php";
+    include "vendor/painless/invoker/src/Pandora/Debug/Debug.php";
 
 // Containers
-include 'containers.php';
+    include 'containers.php';
 
 // Routes
-include 'routes/auth.php';
-include 'routes/authJWT.php';
-include 'routes/app.php';
-include 'routes/api.php';
-include 'routes/web.php';
+    include 'routes/auth.php';
+    include 'routes/authJWT.php';
+    include 'routes/app.php';
+    include 'routes/api.php';
+    include 'routes/web.php';
 
-$app->run();
+    $app->run();
+} catch (Exception $e) {
+    $config = null;
+}
