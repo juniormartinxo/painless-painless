@@ -28,13 +28,16 @@
                 <p id="message" class="alert-text">Faça login primeiro</p>
 
                 <form action="#" autocomplete="off">
+                    <input id="username" style="opacity: 0;position: absolute;" type="text" name="fakeUserNameRemembered">
+                    <input id="password" style="opacity: 0;position: absolute;" type="password" name="fakePasswordRemembered">
+
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="text" id="iptLogin" name="iptUser" autocomplete="off">
+                        <input class="mdl-textfield__input" type="text" id="iptLogin" name="iptUser" autocomplete="new-password">
                         <label class="mdl-textfield__label" for="iptLogin">Usuário</label>
                     </div>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="password" id="iptPassword" name="iptPass" autocomplete="off">
+                        <input class="mdl-textfield__input" type="password" id="iptPassword" name="iptPass" autocomplete="new-password">
                         <label class="mdl-textfield__label" for="iptPassword">Senha</label>
                     </div>
 
@@ -43,8 +46,7 @@
             </div>
 
             <div class="mdl-card__actions mdl-card--border">
-                <a class="btn btn-link" href="{{path_web}}/password/recover"> Esqueci a minha senha </a>
-                <a href="#" class="btn btn-info" id="btnRecuperar">Session</a>
+                <a class="btn btn-link" href="{{path_web}}/password/recover/challenge">Esqueci a minha senha</a>
             </div>
         </div>
     </section>

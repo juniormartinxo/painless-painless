@@ -14,7 +14,7 @@ function alertShake(obj, msgStart, classAlert, msgEnd, time)
         .addClass("container-shake");
 
     setTimeout(function () {
-        $('#message')
+        $(obj)
             .removeClass('alert-text-' + classAlert)
             .removeClass('container-shake')
             .html(msgEnd);

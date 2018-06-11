@@ -36,7 +36,9 @@ $(document).ready(function () {
 
     $('#btnEnviar').click(function (e) {
         let email = $('#iptEmail').val();
-        let url   = JS_PATH_WEB + '/password/send';
+        let url   = JS_PATH_WEB + '/password/recover/send';
+
+        icoSpinner('#message');
 
         $.post(
             url,
@@ -44,21 +46,7 @@ $(document).ready(function () {
                 email: email
             },
             function (data) {
-                $('#msgRet').html(data);
-                //alertShake('#msgRet', data, 'danger', 'Faça login primeiro', 3000);
-            }
-        );
-
-        e.preventDefault();
-    });
-
-    $('#btnRecuperar').click(function (e) {
-        let url = JS_PATH_WEB + '/session/load';
-
-        $.post(
-            url,
-            function (data) {
-                alertShake('#message', data, 'danger', 'Faça login primeiro', 3000);
+                alertShake('#message', data, 'danger', 'Digite seu email', 3000);
             }
         );
 

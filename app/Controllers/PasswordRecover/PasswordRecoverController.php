@@ -6,16 +6,11 @@
  * Time: 17:43
  */
 
-namespace App\Controllers\Auth;
+namespace App\Controllers\PasswordRecover;
 
 
-class PasswordController
+class PasswordRecoverController
 {
-    /**
-     * @var \Pandora\Contracts\Database\iDataManager
-     */
-    private $dm;
-    
     /**
      * @var
      */
@@ -73,37 +68,5 @@ class PasswordController
         $response->getBody()->write($load->render($vars));
         
         return $response;
-    }
-    
-    public function send_mail_recover_password($request, $response, $args)
-    {
-        $email = $request->getParam('email');
-        
-        $user = $this->container->dm_users->findByFieldsValues(['email' => $email], 1);
-        
-        $userId    = $user['user_id'] ?? '';
-        $userName  = $user['user_name'] ?? '';
-        $userFlag  = $user['user_flag'] ?? '';
-        $userEmail = $user['user_email'] ?? '';
-        
-        $mail['box']  = $userEmail;
-        $mail['name'] = $userName;
-        
-        $dateLink = new \DateTime(date('Y-m-d H:i:s'));
-        
-        $arrToken['expired'] = $dateLink->format('Y-m-d H:i:s');
-        $arrToken['id']      = $userId;
-        $arrToken['flag']    = $userFlag;
-        $arrToken['mail']    = $userEmail;
-        
-        keyShuffle($arrToken);
-        
-        $jsonToken = json_encode($arrToken);
-        
-        $token = deKrypt('encrypt', $jsonToken);
-        
-        //$send = $this->container->sendMail->send();
-        
-        return $token;
     }
 }

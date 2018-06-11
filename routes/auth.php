@@ -8,4 +8,3 @@
  */
 
 include CONFIG['PATH_ROUTES'] . DS . 'Auth' . DS . 'AuthRoutes.php';
-include CONFIG['PATH_ROUTES'] . DS . 'Password' . DS . 'PasswordRoutes.php';

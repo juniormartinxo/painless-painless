@@ -70,7 +70,7 @@ $container['validation'] = function ($c) {
 $container['sendMail'] = function ($c){
     $PHPMailer = new PHPMailer(true);
     
-    $Send = new Send($PHPMailer);
+    $Send = new Send($PHPMailer, $c['validation']);
     
     return $Send;
 };

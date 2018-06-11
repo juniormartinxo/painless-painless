@@ -7,3 +7,4 @@
  */
 
 include CONFIG['PATH_ROUTES'] . DS . 'Users' . DS . 'UsersRoutes.php';
+include CONFIG['PATH_ROUTES'] . DS . 'PasswordRecover' . DS . 'PasswordRecoverRoutes.php';
