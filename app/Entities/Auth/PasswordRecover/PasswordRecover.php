@@ -2,8 +2,8 @@
 /**
  * Created by Invoker.
  * Author: Aluisio Martins Junior <junior@mjpsolucoes.com.br>
- * Date: 10/06/2018
- * Time: 12:06
+ * Date: 15/06/2018
+ * Time: 13:06
 */
 
 namespace App\Entities\Auth\PasswordRecover;
@@ -15,7 +15,7 @@ use Pandora\Contracts\Database\iDataObject;
 class PasswordRecover implements iDataObject
 {
     /**
-     * @var int $id ID da recuperaÃ§Ã£o da senha. [max-length: 10,0]
+     * @var int $id ID da recuperaÃ§Ã£o. [max-length: 10,0]
      */
     private $id;
 
@@ -70,7 +70,7 @@ class PasswordRecover implements iDataObject
     private $table  = 'auth_password_recover';
 
     /**
-     * @param int $id ID da recuperaÃ§Ã£o da senha. [max-length: 10,0]
+     * @param int $id ID da recuperaÃ§Ã£o. [max-length: 10,0]
      *
      * @return $this
      */

@@ -2,17 +2,17 @@
 /**
  * Created by Invoker.
  * Author: Aluisio Martins Junior <junior@mjpsolucoes.com.br>
- * Date: 10/06/2018
- * Time: 12:06
+ * Date: 15/06/2018
+ * Time: 13:06
 */
 
 namespace App\Actions;
 
+use App\Entities\Auth\PasswordRecover\PasswordRecover;
 use Pandora\Contracts\Actions\iActions;
 use Pandora\Contracts\Connection\iConn;
 use Pandora\Contracts\Database\iDataManager;
 use Pandora\Contracts\Validation\iValidation;
-use App\Entities\Auth\PasswordRecover\PasswordRecover;
 use Slim\Container;
 
 class PasswordRecoverActions implements iActions
@@ -38,194 +38,26 @@ class PasswordRecoverActions implements iActions
     private $passwordRecover;
 
     /**
-     * @var string
-     */
-    private $table = 'auth_password_recover';
-    
-    /**
-     * PasswordRecoverActions constructor.
+     * PasswordRecoverActions constructor
      *
-     * @param \Slim\Container $container
+     * @param \Slim\Container $container 
      */
     public function __construct(Container $container)
     {
         $this->setValidation($container['validation']);
-        $this->setDm($container['dm_passwordRecover']);
+        $this->setDm($container['dm_password_recover']);
         $this->setConn($container['conn']);
         $this->setPasswordRecover($this->dm->getObject());
     }
 
     /**
+     * @param array $parameters
      *
      * @return string
      */
-    public function insert()
+    public function disable(array $parameters = [])
     {
-        $id            = $_REQUEST['ipt_id'] ?? '';
-        $user_id       = $_REQUEST['ipt_user_id'] ?? '';
-        $email         = $_REQUEST['ipt_email'] ?? '';
-        $ip            = $_REQUEST['ipt_ip'] ?? '';
-        $device        = $_REQUEST['ipt_device'] ?? '';
-        $date_request  = date('Y-m-d H:i:s');
-        $date_update   = $_REQUEST['ipt_date_update'] ?? '';
-        $token         = $_REQUEST['ipt_token'] ?? '';
-        $condition     = $_REQUEST['ipt_condition'] ?? 'A';
-
-        $validation = $this->getValidation();
-
-        $check = [];
-
-        // Validação do campo user_id
-        array_push($check, $validation->isNotEmpty($user_id, 'ID do usuÃ¡rio'));
-
-        // Validação do campo email
-        array_push($check, $validation->isNotEmpty($email, 'Email'));
-        array_push($check, $validation->isEmail($email));
-
-        // Validação do campo ip
-        array_push($check, $validation->isNotEmpty($ip, 'IP do usuÃ¡rio'));
-        array_push($check, $validation->isIp($ip));
-
-        // Validação do campo device
-        array_push($check, $validation->isNotEmpty($device, 'Dispositivo'));
-
-        // Validação do campo date_request
-        array_push($check, $validation->isNotEmpty($date_request, 'Data da solicitaÃ§Ã£o'));
-
-        // Validação do campo date_update
-        array_push($check, $validation->isNotEmpty($date_update, 'AtualizaÃ§Ã£o'));
-
-        // Validação do campo token
-        array_push($check, $validation->isNotEmpty($token, 'Token'));
-
-        // Validação do campo condition
-        array_push($check, $validation->isNotEmpty($condition, 'SituaÃ§Ã£o'));
-
-        $error = 0;
-
-        $msg = [];
-
-        foreach ($check as $item) {
-            $error += ($item['response'] === false) ? 1 : 0;
-
-            if (!empty($item['message'])) {
-                $msg[] = $item['message'];
-            }
-        }
-
-        if ($error < 1) {
-            $passwordRecover = $this->getPasswordRecover();
-
-            $passwordRecover->setId($id);
-            $passwordRecover->setUser_id($user_id);
-            $passwordRecover->setEmail($email);
-            $passwordRecover->setIp($ip);
-            $passwordRecover->setDevice($device);
-            $passwordRecover->setDate_request($date_request);
-            $passwordRecover->setDate_update($date_update);
-            $passwordRecover->setToken($token);
-            $passwordRecover->setCondition($condition);
-
-            $dm = $this->getDm();
-            $dm->setObject($passwordRecover);
-
-            $op = $dm->insert();
-
-            $msg = $op['message'];
-            $msg .= !empty($op['error_info']) ? ' :: ' . $op['error_info'] : '';
-        }
-
-        return json_encode($msg);
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function update()
-    {
-        $user_id       = $_REQUEST['ipt_user_id'] ?? '';
-        $email         = $_REQUEST['ipt_email'] ?? '';
-        $ip            = $_REQUEST['ipt_ip'] ?? '';
-        $device        = $_REQUEST['ipt_device'] ?? '';
-        $date_request  = date('Y-m-d H:i:s');
-        $date_update   = $_REQUEST['ipt_date_update'] ?? '';
-        $token         = $_REQUEST['ipt_token'] ?? '';
-        $condition     = $_REQUEST['ipt_condition'] ?? 'A';
-
-        $validation = $this->getValidation();
-
-        $check = [];
-
-        // Validação do campo email
-        array_push($check, $validation->isNotEmpty($email, 'Email'));
-        array_push($check, $validation->isEmail($email));
-
-        // Validação do campo ip
-        array_push($check, $validation->isNotEmpty($ip, 'IP do usuÃ¡rio'));
-        array_push($check, $validation->isIp($ip));
-
-        // Validação do campo device
-        array_push($check, $validation->isNotEmpty($device, 'Dispositivo'));
-
-        // Validação do campo date_request
-        array_push($check, $validation->isNotEmpty($date_request, 'Data da solicitaÃ§Ã£o'));
-
-        // Validação do campo date_update
-        array_push($check, $validation->isNotEmpty($date_update, 'AtualizaÃ§Ã£o'));
-
-        // Validação do campo token
-        array_push($check, $validation->isNotEmpty($token, 'Token'));
-
-        // Validação do campo condition
-        array_push($check, $validation->isNotEmpty($condition, 'SituaÃ§Ã£o'));
-
-        $error = 0;
-
-        $msg = [];
-
-        foreach ($check as $item) {
-            $error += ($item['response'] === false) ? 1 : 0;
-
-            if (!empty($item['message'])) {
-                $msg[] = $item['message'];
-            }
-        }
-
-        if ($error < 1) {
-            $passwordRecover = $this->getPasswordRecover();
-
-            $passwordRecover->setId($id);
-            $passwordRecover->setId($id);
-            $passwordRecover->setUser_id($user_id);
-            $passwordRecover->setEmail($email);
-            $passwordRecover->setIp($ip);
-            $passwordRecover->setDevice($device);
-            $passwordRecover->setDate_request($date_request);
-            $passwordRecover->setDate_update($date_update);
-            $passwordRecover->setToken($token);
-            $passwordRecover->setCondition($condition);
-
-            $dm = $this->getDm();
-
-            $dm->setObject($passwordRecover);
-
-            $op = $dm->update();
-
-            $msg = $op['message'];
-            $msg .= !empty($op['error_info']) ? ' :: ' . $op['error_info'] : '';
-        }
-
-        return json_encode($msg);
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function disable()
-    {
-        $id = $_REQUEST['ipt_id'] ?? '';
+        $id = $this->extractRequest($parameters, 'ipt_id', '');
 
         $passwordRecover = $this->getPasswordRecover();
         $passwordRecover->setId($id);
@@ -242,12 +74,13 @@ class PasswordRecoverActions implements iActions
     }
 
     /**
+     * @param array $parameters
      *
      * @return string
      */
-    public function enable()
+    public function enable(array $parameters = [])
     {
-        $id = $_REQUEST['ipt_id'] ?? '';
+        $id = $this->extractRequest($parameters, 'ipt_id', '');
 
         $passwordRecover = $this->getPasswordRecover();
         $passwordRecover->setId($id);
@@ -259,6 +92,187 @@ class PasswordRecoverActions implements iActions
 
         $msg = $op['message'];
         $msg .= !empty($op['error_info']) ? ' :: ' . $op['error_info'] : '';
+
+        return json_encode($msg);
+    }
+
+    /**
+     * @param array  $parameters
+     * @param string $parameter
+     * @param string $valueDefault
+     * @param string $type
+     *
+     * @return mixed|string
+     */
+    public function extractRequest(array $parameters, string $parameter, string $valueDefault, string $type='normal')
+    {
+        if (isset($_REQUEST[$parameter])) {
+            $value = !empty($_REQUEST[$parameter]) ? $_REQUEST[$parameter] : $valueDefault;
+        } else {
+            $value = $parameters[$parameter] ?? $valueDefault;
+        }
+
+        switch ($type){
+            case 'flag':
+                $value = flag($value);
+                break;
+            case 'token_user':
+                $value = token_user(str_replace('ipt_', '', $parameter), $value);
+                break;
+            case 'password':
+                $value = password($value);
+                break;
+            case 'date_automatic':
+                $value = date('Y-m-d H:i:s');
+                break;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return mixed|string
+     */
+    public function insert(array $parameters = [])
+    {
+        $user_id      = $this->extractRequest($parameters, 'ipt_user_id', '');
+        $email        = $this->extractRequest($parameters, 'ipt_email', '');
+        $ip           = $this->extractRequest($parameters, 'ipt_ip', '');
+        $device       = $this->extractRequest($parameters, 'ipt_device', '');
+        $date_request = date('Y-m-d H:i:s');
+        $token        = $this->extractRequest($parameters, 'ipt_token', '');
+
+        $validation = $this->getValidation();
+
+        $check = [];
+
+        // Validação do campo user_id
+        array_push($check, $validation->isNotEmpty($user_id, 'ID do usuário'));
+
+        // Validação do campo email
+        array_push($check, $validation->isNotEmpty($email, 'Email'));
+        array_push($check, $validation->isEmail($email));
+
+        // Validação do campo ip
+        array_push($check, $validation->isNotEmpty($ip, 'IP do usuário'));
+        array_push($check, $validation->isIp($ip));
+
+        // Validação do campo device
+        array_push($check, $validation->isNotEmpty($device, 'Dispositivo'));
+
+        // Validação do campo date_request
+        array_push($check, $validation->isNotEmpty($date_request, 'Data da solicitação'));
+
+        // Validação do campo token
+        array_push($check, $validation->isNotEmpty($token, 'Token'));
+
+        $error = 0;
+
+        $msg = [];
+
+        foreach ($check as $item) {
+            $error += ($item['response'] === false) ? 1 : 0;
+
+            if (!empty($item['message'])) {
+                $msg[] = $item['message'];
+            }
+
+        }
+
+        if ($error < 1) {
+            $passwordRecover = $this->getPasswordRecover();
+
+            $passwordRecover->setUser_id($user_id);
+            $passwordRecover->setEmail($email);
+            $passwordRecover->setIp($ip);
+            $passwordRecover->setDevice($device);
+            $passwordRecover->setDate_request($date_request);
+            $passwordRecover->setToken($token);
+
+            $dm = $this->getDm();
+            $dm->setObject($passwordRecover);
+
+            $op = $dm->insert();
+
+            $msg = $op['message'];
+            $msg .= !empty($op['error_info']) ? ' :: ' . $op['error_info'] : '';
+        }
+
+        return json_encode($msg);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return mixed|string
+     */
+    public function update(array $parameters = [])
+    {
+        $error = 0;
+
+        $msg = [];
+
+        $id = $this->extractRequest($parameters, 'ipt_id', '');
+
+        if(empty($id)) {
+            $msg[] = 'Identificador inválido!';
+        }
+
+        $email       = $this->extractRequest($parameters, 'ipt_email', '');
+        $ip          = $this->extractRequest($parameters, 'ipt_ip', '');
+        $device      = $this->extractRequest($parameters, 'ipt_device', '');
+        $date_update = $this->extractRequest($parameters, 'ipt_date_update', '');
+        $condition   = $this->extractRequest($parameters, 'ipt_condition', 'A');
+
+        $validation = $this->getValidation();
+
+        $check = [];
+
+        // Validação do campo email
+        array_push($check, $validation->isNotEmpty($email, 'Email'));
+        array_push($check, $validation->isEmail($email));
+
+        // Validação do campo ip
+        array_push($check, $validation->isNotEmpty($ip, 'IP do usuário'));
+        array_push($check, $validation->isIp($ip));
+
+        // Validação do campo device
+        array_push($check, $validation->isNotEmpty($device, 'Dispositivo'));
+
+        // Validação do campo condition
+        array_push($check, $validation->isNotEmpty($condition, 'Situação'));
+
+
+        foreach ($check as $item) {
+            $error += ($item['response'] === false) ? 1 : 0;
+
+            if (!empty($item['message'])) {
+                $msg[] = $item['message'];
+            }
+
+        }
+
+        if ($error < 1) {
+            $passwordRecover = $this->getPasswordRecover();
+
+            $passwordRecover->setId($id);
+            $passwordRecover->setEmail($email);
+            $passwordRecover->setIp($ip);
+            $passwordRecover->setDevice($device);
+            $passwordRecover->setDate_update($date_update);
+            $passwordRecover->setCondition($condition);
+
+            $dm = $this->getDm();
+
+            $dm->setObject($passwordRecover);
+
+            $op = $dm->update();
+
+            $msg = $op['message'];
+            $msg .= !empty($op['error_info']) ? ' :: ' . $op['error_info'] : '';
+        }
 
         return json_encode($msg);
     }

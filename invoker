@@ -56,7 +56,7 @@ $makerActions = new MakerActions($save, $database, $name);
 
 $maker = new Maker($makerActions, $cmd);
 
-$maker->execute($cmd);
+$maker->execute();
 
 $timer->setTimeEnd();
 
