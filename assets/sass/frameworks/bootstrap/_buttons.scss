@@ -139,3 +139,9 @@ input[type="button"] {
         width: 100%;
     }
 }
+
+.btn-round {
+    border-radius: 30px 30px 30px 30px !important;
+    -moz-border-radius: 30px 30px 30px 30px !important;
+    -webkit-border-radius: 30px 30px 30px 30px !important;
+}

@@ -1,16 +1,16 @@
 /**
  *
  * @param obj
- * @param msgStart
  * @param classAlert
- * @param msgEnd
  * @param time
+ * @param msg
+ * @param msgEnd
  */
-function alertMessage(obj, msgStart, classAlert, msgEnd, time)
+function alertMessage(obj, classAlert, time, msg, msgEnd='')
 {
-    $(obj).html(msgStart)
+    $(obj).html(msg)
           .addClass("text-" + classAlert)
-          .animateCss("headShake");
+          .animateCss("bounceIn");
     
     setTimeout(
         function () {

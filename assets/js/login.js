@@ -28,7 +28,7 @@ $(document).ready(function () {
                 if (sts === 'success') {
                     window.location.href = JS_PATH_WEB + '/index';
                 } else {
-                    alertMessage('#message', msg, 'danger', '', 5000);
+                    alertMessage('#message', 'danger', 5000, msg);
                 }
             }
         );
@@ -48,7 +48,7 @@ $(document).ready(function () {
                 email: email
             },
             function (data) {
-                alertMessage('#message', data, 'danger', '', 5000);
+                alertMessage('#message', 'danger', 5000, data);
             }
         );
 

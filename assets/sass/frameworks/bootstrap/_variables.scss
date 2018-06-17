@@ -38,7 +38,7 @@ $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
 $pink: #e83e8c !default;
 $red: #f13950 !default;
-$orange: #fd7e14 !default;
+$orange: #f96332 !default;
 $yellow: #fbce3f !default;
 $green: #38aa3a !default;
 $teal: #35c4a2 !default;
@@ -321,7 +321,7 @@ $table-caption-color: $text-muted !default;
 //
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 
-$input-btn-padding-y: .375rem !default;
+$input-btn-padding-y: .5rem !default;
 $input-btn-padding-x: 1.55rem !default;
 $input-btn-line-height: $line-height-base !default;
 
