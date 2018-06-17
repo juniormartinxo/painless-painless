@@ -10,5 +10,9 @@
 /* Bootstrap */
 @import "frameworks/bootstrap/bootstrap";
 
+/* Utils */
+@import "beauty/utils/margins";
+@import "beauty/utils/paddings";
+
 /* Animations */
-@import "beauty/animations/shake";
+@import "frameworks/animate/animate";

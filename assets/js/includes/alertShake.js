@@ -6,18 +6,19 @@
  * @param msgEnd
  * @param time
  */
-function alertShake(obj, msgStart, classAlert, msgEnd, time)
+function alertMessage(obj, msgStart, classAlert, msgEnd, time)
 {
-    $(obj)
-        .html(msgStart)
-        .addClass("alert-text-" + classAlert)
-        .addClass("container-shake");
-
-    setTimeout(function () {
-        $(obj)
-            .removeClass('alert-text-' + classAlert)
-            .removeClass('container-shake')
-            .html(msgEnd);
-    }, time);
-
+    $(obj).html(msgStart)
+          .addClass("text-" + classAlert)
+          .animateCss("headShake");
+    
+    setTimeout(
+        function () {
+            $(obj)
+                .animateCss("bounceOut", function () {
+                    $(obj).html(msgEnd);
+                });
+        },
+        time
+    );
 }

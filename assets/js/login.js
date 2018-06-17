@@ -4,13 +4,15 @@ $(document).ready(function () {
         let pass = $('#iptPassword').val();
         let url  = JS_PATH_WEB + '/auth/login';
 
+        icoSpinner('#message');
+
         $.post(
             url,
             {
                 user: user,
                 pass: pass
             },
-            function (data, status) {
+            function (data) {
                 let msg, obj, sts;
 
                 if (isJson(data)) {
@@ -26,7 +28,7 @@ $(document).ready(function () {
                 if (sts === 'success') {
                     window.location.href = JS_PATH_WEB + '/index';
                 } else {
-                    alertShake('#message', msg, 'danger', 'Faça login primeiro', 3000);
+                    alertMessage('#message', msg, 'danger', '', 5000);
                 }
             }
         );
@@ -46,7 +48,7 @@ $(document).ready(function () {
                 email: email
             },
             function (data) {
-                alertShake('#message', data, 'danger', 'Digite seu email', 3000);
+                alertMessage('#message', data, 'danger', '', 5000);
             }
         );
 
