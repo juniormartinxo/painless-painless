@@ -18,18 +18,26 @@ class PasswordRecoverService
      * @var \Slim\Container
      */
     protected $container;
+    
     /**
      * @var \Pandora\Database\DataManager
      */
     private $dataManager;
+    
     /**
      * @var \App\Actions\PasswordRecoverActions
      */
     private $passwordRecoverActions;
+    
     /**
      * @var \Pandora\Email\Send
      */
     private $sendMail;
+    
+    /**
+     * @var \Pandora\Email\Templates
+     */
+    private $template;
     
     /**
      * @var \UserAgentParser\Provider\PiwikDeviceDetector
@@ -45,15 +53,12 @@ class PasswordRecoverService
      */
     public function __construct(Container $container)
     {
-        $this->container = $container;
-        
+        $this->container              = $container;
         $this->passwordRecoverActions = $container->get('passwordRecoverActions');
-        
-        $this->sendMail = $container->get('sendMail');
-        
-        $this->dataManager = $container->get('dm_users');
-        
-        $this->userAgentParser = $container->get('userAgentParser');
+        $this->sendMail               = $container->get('sendMail');
+        $this->template               = $container->get('templateMail');
+        $this->dataManager            = $container->get('dmUsers');
+        $this->userAgentParser        = $container->get('userAgentParser');
     }
     
     /**
@@ -65,36 +70,35 @@ class PasswordRecoverService
     {
         $email = $request->getParam('email');
         
-        $user = $this->dataManager->findByFieldsValues(['email' => $email], 1);
+        $info = $this->info($email);
         
-        $userId   = $user['user_id'] ?? '';
-        $userName = $user['user_name'] ?? '';
+        $userId   = $info['id'] ?? '';
+        $userName = $info['name'] ?? '';
         
-        $mail['box']  = $email;
-        $mail['name'] = $userName;
+        $mail = [
+            'box'  => $email,
+            'name' => $userName
+        ];
         
-        $dateLink = new \DateTime(date('Y-m-d H:i:s'));
-        
-        $arrToken['exp'] = $dateLink->format('Y-m-d H:i:s');
-        $arrToken['id']  = $userId;
-        
-        keyShuffle($arrToken);
-        
-        $jsonToken = json_encode($arrToken);
-        
-        $token = krypt('encrypt', $jsonToken);
+        $token = $this->token($userId);
         
         $subject = $_ENV['APP_NAME'] . utf8_decode(' - Recuperação de senha');
         
-        $bodyHtml = 'Olá ' . $userName . '! <br/>';
-        $bodyHtml .= 'Você está recebendo essa mensagem porque uma solicitação de recuperação de senha foi feito no ' . $_ENV['APP_NAME'] . '<br/><br/>';
-        $bodyHtml .= 'Clique no link abaixo ou copie o link e cole no navegador para informar sua nova senha:<br/>';
-        $bodyHtml .= CONFIG['PATH_WEB'] . '/password/recover/new/' . $token . '<br/><br/>';
-        $bodyHtml .= 'Atenciosamente, Equipe ' . $_ENV['APP_NAME'];
+        $html = utf8_decode($this->template->load('password_recover_template.html'));
+        
+        $link = CONFIG['PATH_WEB'] . '/password/recover/new/' . $token;
+        
+        $arrSearchReplace = [
+            'VAR_NAME_USER'    => $userName,
+            'VAR_NAME_APP'     => $_ENV['APP_NAME'],
+            'VAR_LINK_RECOVER' => $link
+        ];
+        
+        $bodyHtml = $this->template->replace($arrSearchReplace, $html);
         
         $bodyNoHtml = $bodyHtml;
         
-        $send = $this->sendMail->simple($mail, $subject, $bodyHtml, $bodyNoHtml);
+        $send = $this->sendMail->simple($mail, $subject, $bodyNoHtml, $bodyNoHtml);
         
         if ($send[0]) {
             $fields['ipt_user_id'] = $userId;
@@ -113,14 +117,42 @@ class PasswordRecoverService
     {
         $str = $this->userAgentParser->getDevice()->getType();
         
-        if(!empty($this->userAgentParser->getDevice()->getBrand())){
+        if (!empty($this->userAgentParser->getDevice()->getBrand())) {
             $str .= ', ' . $this->userAgentParser->getDevice()->getBrand();
         }
         
-        if(!empty($this->userAgentParser->getDevice()->getModel())){
+        if (!empty($this->userAgentParser->getDevice()->getModel())) {
             $str .= ' - ' . $this->userAgentParser->getDevice()->getModel();
         }
         
         return $str;
+    }
+    
+    private function info($email)
+    {
+        $user = $this->dataManager->findByFieldsValues(['email' => $email], 1);
+        
+        $userId   = $user['user_id'] ?? '';
+        $userName = $user['user_name'] ?? '';
+        
+        $info['box']  = $email;
+        $info['name'] = $userName;
+        $info['id']   = $userId;
+        
+        return $info;
+    }
+    
+    private function token($userId)
+    {
+        $date = new \DateTime(date('Y-m-d H:i:s'));
+        
+        $arrToken['exp'] = $date->format('Y-m-d H:i:s');
+        $arrToken['id']  = $userId;
+        
+        keyShuffle($arrToken);
+        
+        $jsonToken = json_encode($arrToken);
+        
+        return krypt('encrypt', $jsonToken);
     }
 }

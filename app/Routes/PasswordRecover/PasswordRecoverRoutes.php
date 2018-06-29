@@ -6,18 +6,13 @@
  * Time: 12:06
  */
 
-use App\Actions\PasswordRecoverActions;
 use App\Entities\Auth\PasswordRecover\PasswordRecover;
 use Pandora\Database\DataManager;
 
-$container['dm_password_recover'] = function ($c) {
+$container['dmPasswordRecover'] = function ($c) {
     $passwordRecover = new PasswordRecover();
     
     return new DataManager($c['conn'], $passwordRecover);
-};
-
-$container['passwordRecoverActions'] = function ($c){
-    return new PasswordRecoverActions($c);
 };
 
 $app->group('/password/recover', function () {

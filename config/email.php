@@ -14,5 +14,6 @@ return [
     'MAIL_SMTP_SECURE'   => $_ENV['MAIL_SMTP_SECURE'] ?? getenv('MAIL_SMTP_SECURE'),
     'MAIL_SMTP_PORT'     => $_ENV['MAIL_SMTP_PORT'] ?? getenv('MAIL_SMTP_PORT'),
     'MAIL_FROM'          => $_ENV['MAIL_FROM'] ?? getenv('MAIL_FROM'),
-    'MAIL_FROM_NAME'     => $_ENV['MAIL_FROM_NAME'] ?? getenv('MAIL_FROM_NAME')
+    'MAIL_FROM_NAME'     => $_ENV['MAIL_FROM_NAME'] ?? getenv('MAIL_FROM_NAME'),
+    'MAIL_TEMPLATE_PATH' => $_ENV['MAIL_TEMPLATE_PATH'] ?? getenv('MAIL_TEMPLATE_PATH'),
 ];

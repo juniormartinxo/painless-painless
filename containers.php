@@ -12,10 +12,12 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\ValidationData;
 use Pandora\Connection\Conn;
 use Pandora\Email\Send;
+use Pandora\Email\Templates;
 use Pandora\Http\Requisitions;
 use Pandora\Validation\Validation;
 use PHPMailer\PHPMailer\PHPMailer;
 use Slim\Container;
+use Slim\Http\Request;
 use Slim\Http\Response;
 use UserAgentParser\Provider\PiwikDeviceDetector;
 
@@ -78,6 +80,12 @@ $container['sendMail'] = function () {
     return $Send;
 };
 
+$container['templateMail'] = function () {
+    $template = new Templates(CONFIG['PATH_ROOT'] . CONFIG['MAIL_TEMPLATE_PATH']);
+    
+    return $template;
+};
+
 $container['twig'] = function () {
     // Twig
     $twigLoader = new Twig_Loader_Filesystem($_ENV['VIEW_PATH']);
@@ -116,7 +124,7 @@ $container['notAllowedHandler'] = function (Container $c) {
 };
 
 $container['phpErrorHandler'] = function (Container $c) {
-    return function (Response $response) use ($c) {
+    return function (Request $request, Response $response) use ($c) {
         $template = 'errors/500.html';
         
         $var['path_web'] = CONFIG['PATH_WEB'];

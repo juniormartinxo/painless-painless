@@ -44,7 +44,7 @@ class UsersActions implements iActions
     public function __construct($container)
     {
         $this->setValidation($container['validation']);
-        $this->setDm($container['dm_users']);
+        $this->setDm($container['dmUsers']);
         $this->setConn($container['conn']);
         $this->setUsers($this->dm->getObject());
     }

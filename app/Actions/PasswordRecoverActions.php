@@ -45,7 +45,7 @@ class PasswordRecoverActions implements iActions
     public function __construct(Container $container)
     {
         $this->setValidation($container['validation']);
-        $this->setDm($container['dm_password_recover']);
+        $this->setDm($container['dmPasswordRecover']);
         $this->setConn($container['conn']);
         $this->setPasswordRecover($this->dm->getObject());
     }

@@ -9,24 +9,54 @@
 namespace App\Controllers\PasswordRecover;
 
 
+use Slim\Container;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Twig_Environment;
+
 class PasswordRecoverController
 {
     /**
-     * @var
+     * @var \Slim\Container
      */
     protected $container;
     
-    // constructor receives container instance
-    public function __construct($container)
+    /**
+     * @var Twig_Environment
+     */
+    var $twig;
+    /**
+     * @var \Pandora\Database\DataManager
+     */
+    private $dmPasswordRecover;
+    
+    /**
+     * PasswordRecoverController constructor.
+     *
+     * @param \Slim\Container $container
+     *
+     * @throws \Interop\Container\Exception\ContainerException
+     */
+    public function __construct(Container $container)
     {
-        $this->container = $container;
+        $this->twig              = $container->get('twig');
+        $this->dmPasswordRecover = $container->get('dmPasswordRecover');
     }
     
-    public function password_recover($request, $response, $args)
+    /**
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     *
+     * @return \Slim\Http\Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function password_recover(Request $request, Response $response)
     {
         $page = 'password_recover.html';
         
-        $load = $this->container->twig->load($page);
+        $load = $this->twig->load($page);
         
         $vars['path_web'] = CONFIG['PATH_WEB'];
         
@@ -35,21 +65,32 @@ class PasswordRecoverController
         return $response;
     }
     
-    public function password_new($request, $response, $args)
+    /**
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
+     *
+     * @return \Slim\Http\Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function password_new(Request $request, Response $response)
     {
         $page = 'errors/expired_link.html';
         
         $token = $request->getAttribute('token');
         
-        $decryptToken = deKrypt('decrypt', $token);
+        $decryptToken = krypt('decrypt', $token);
         
         $arrToken = json_decode($decryptToken, true);
         
-        $dateLink = isset($arrToken['expired']) ? new \DateTime($arrToken['expired']) : '';
+        $dateLink = isset($arrToken['exp']) ? new \DateTime($arrToken['exp']) : '';
         
         $dateNow = new \DateTime(date('Y-m-d H:i:s'));
         
-        if (!empty($dateLink)) {
+        $verify = $this->verify($token);
+        
+        if ($verify) {
             $page = 'password_new.html';
             
             $diff = $dateLink->diff($dateNow);
@@ -61,12 +102,28 @@ class PasswordRecoverController
             }
         }
         
-        $load = $this->container->twig->load($page);
+        $load = $this->twig->load($page);
         
         $vars['path_web'] = CONFIG['PATH_WEB'];
+        $vars['token']    = $token;
         
         $response->getBody()->write($load->render($vars));
         
         return $response;
+    }
+    
+    
+    private function verify(string $token)
+    {
+        $fieldsValues['token']     = $token;
+        $fieldsValues['condition'] = 'A';
+        
+        $status = $this->dmPasswordRecover->findByFieldsValues($fieldsValues, 1);
+        
+        if (!$status) {
+            return false;
+        }
+        
+        return true;
     }
 }
