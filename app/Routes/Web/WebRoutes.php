@@ -17,7 +17,8 @@ $menus = [
 ];
 
 
-$app->any('/session/load', function ($request, $response, $args) use ($container) {
+#$app->any('/session/load', static function ($request, $response, $args) use ($container) {
+$app->any('/session/load', static function() {
     //$container = $this->getContainer();
     //print_r(CONFIG['PATH_WEB']);//['PATH_ROUTES'];// $_SESSION['painless']['auth'] ?? 'Não criado!';
     echo $_SESSION[$_ENV['SESSION_NAME']]['auth'] ?? false;

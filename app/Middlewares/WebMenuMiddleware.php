@@ -24,11 +24,11 @@ class WebMenuMiddleware
     }
     
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
-     * @param callable                                 $next
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     * @param callable               $next
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
@@ -37,21 +37,21 @@ class WebMenuMiddleware
         $menus = $this->menus;
         
         foreach ($menus as $k => $menu) {
-            $menus[$k]['status']    = $menu['url'] == $path ? 'selected' : '';
+            $menus[$k]['status'] = $menu['url'] === $path ? 'selected' : '';
         }
         
         switch ($path) {
-            case '/':
-                $menus[0]['status'] = 'selected';
-                $page               = 'index';
-                break;
-            
-            case 'home':
-                $page = 'index';
-                break;
-            
-            default:
-                $page = $path;
+        case '/':
+            $menus[0]['status'] = 'selected';
+            $page               = CONFIG['VIEW_HOMEPAGE'];
+            break;
+        
+        case 'home':
+            $page = CONFIG['VIEW_HOMEPAGE'];
+            break;
+        
+        default:
+            $page = $path;
             
         }
         

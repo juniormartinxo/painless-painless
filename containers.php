@@ -46,15 +46,11 @@ $container['jwtParser'] = function () {
 
 $container['conn'] = function () {
     // Conexão com o banco de dados
-    $conn = new Conn($_ENV['DB_NAME'], $_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
-    
-    return $conn;
+    return new Conn($_ENV['DB_NAME'], $_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 };
 
 $container['requisitions'] = function () {
-    $req = new Requisitions();
-    
-    return $req;
+    return new Requisitions();
 };
 
 $container['userAgentParser'] = function () {
@@ -66,36 +62,28 @@ $container['userAgentParser'] = function () {
 };
 
 $container['validation'] = function () {
-    $validation = new Validation();
-    
-    return $validation;
+    return new Validation();
 };
 
 $container['sendMail'] = function () {
     $PHPMailer  = new PHPMailer(true);
     $validation = new Validation();
     
-    $Send = new Send($PHPMailer, $validation);
-    
-    return $Send;
+    return new Send($PHPMailer, $validation);
 };
 
 $container['templateMail'] = function () {
-    $template = new Templates(CONFIG['PATH_ROOT'] . CONFIG['MAIL_TEMPLATE_PATH']);
-    
-    return $template;
+    return new Templates(CONFIG['PATH_ROOT'] . CONFIG['MAIL_TEMPLATE_PATH']);
 };
 
 $container['twig'] = function () {
     // Twig
-    $twigLoader = new Twig_Loader_Filesystem($_ENV['VIEW_PATH']);
+    $twigLoader = new Twig\Loader\FilesystemLoader($_ENV['VIEW_PATH']);
     
-    $twig = new Twig_Environment($twigLoader, [
+    return new Twig\Environment($twigLoader, [
         'cache'       => $_ENV['VIEW_CACHE'],
         'auto_reload' => true
     ]);
-    
-    return $twig;
 };
 
 $container['notFoundHandler'] = function (Container $c) {

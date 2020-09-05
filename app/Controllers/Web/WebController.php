@@ -23,12 +23,17 @@ class WebController
     {
         $navigation = $request->getAttribute('navigation');
         $path       = $request->getAttribute('path');
-        $auth       = $request->getAttribute('auth');
         
-        if ($auth) {
-            $page = !empty($path) ? $path : 'index';
+        if (CONFIG['CONFIG_AUTHENTICATE'] === true) {
+            $auth = $request->getAttribute('auth');
+            
+            if ($auth) {
+                $page = !empty($path) ? $path : CONFIG['VIEW_HOMEPAGE'];
+            } else {
+                $page = 'login';
+            }
         } else {
-            $page = 'login';
+            $page = !empty($path) ? $path : CONFIG['VIEW_HOMEPAGE'];
         }
         
         $load = $this->container->twig->load($page . '.html');
