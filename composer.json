@@ -3,10 +3,10 @@
   "description": "description_text",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "authors": [
+  "authors": [    
     {
-      "name": "Aluisio Martins Junior",
-      "email": "softpuzzle@gmail.com"
+      "name": "Junior Martins",
+      "email": "amjr.box@gmail.com"
     }
   ],
   "require": {
